@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "60ea2d52-5f15-43fe-afa4-2f8ee42b3578",
+		"name": "Translator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Evaluate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let outputmimetype = 'application/json';",
+							"let filename = 'hi from postman.json'",
+							"let body = {",
+							"    input: `<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
+							"    <root>",
+							"        <message>Hello world! 🍎</message>",
+							"        <message>Hello again! ✅</message>",
+							"    </root>`,",
+							"    inputmimetype: 'application/xml',",
+							"    outputmimetype: outputmimetype,",
+							"    filename: filename,",
+							"    transform: `%dw 2.0",
+							"    output ${outputmimetype}",
+							"    ---",
+							"    payload.root.*message map {message: $, index: $$}",
+							"    `",
+							"}",
+							"pm.variables.set('outputmimetype', outputmimetype);",
+							"pm.variables.set('body', JSON.stringify(body));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
